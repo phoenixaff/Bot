@@ -11,120 +11,171 @@
       font-family: monospace;
       margin: 0;
       padding: 0;
-      text-align: center;
-    }
-
-    .container {
-      margin-top: 50px;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .input-field {
-      padding: 10px;
-      margin: 10px 0;
-      border: 2px solid #00ff00;
-      background-color: black;
-      color: #00ff00;
-      font-size: 16px;
-    }
-
-    .button {
-      background-color: #111;
-      color: #0f0;
-      padding: 10px 20px;
-      border: 2px solid #0f0;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-      width: 100%;
-    }
-
-    .error {
-      color: red;
-      font-size: 14px;
     }
 
     .terminal {
-      display: none;
-      margin-top: 20px;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
       padding: 15px;
-      border: 1px solid #0f0;
+      box-sizing: border-box;
+    }
+
+    .message {
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px dotted #0f0;
+    }
+
+    .message strong {
+      color: #00ff00;
+    }
+
+    .message .time {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .vip-button {
+      display: block;
+      width: fit-content;
+      margin: 20px auto;
       background-color: #111;
       color: #0f0;
+      border: 2px solid #0f0;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      animation: blink 1s infinite;
+    }
+
+    .input-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      background-color: black;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      background-color: #111;
+      color: #0f0;
+      border: 2px solid #0f0;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.2; }
+      100% { opacity: 1; }
+    }
+
+    .register-link {
+      color: #ff0000;
+      text-decoration: none;
+    }
+
+    .register-link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>Enter Your ID to Access Signals</h1>
-    <input type="text" id="userId" class="input-field" placeholder="Enter 12-digit ID" />
-    <button class="button" onclick="checkId()">Submit</button>
-    <p id="error-message" class="error"></p>
-    
-    <div class="terminal" id="chatBox">
-      <!-- Messages will appear here after validation -->
-    </div>
+  <div id="initialPage" class="input-container">
+    <h1>Enter Your 12-Digit ID</h1>
+    <input type="text" id="userID" placeholder="ID starts with 125" />
+    <button class="vip-button" onclick="validateID()">Submit</button>
+    <p id="errorMessage" style="color: red; display: none;">
+      Error: ID must start with 125. <br />
+      <a href="https://your-registration-link.com" class="register-link">Register Now</a>
+    </p>
   </div>
 
+  <div class="terminal" id="chatBox" style="display: none;">
+    <!-- Messages will appear here -->
+  </div>
+
+  <a class="vip-button" href="https://t.me/YOUR_BOT_USERNAME" target="_blank" style="display: none;" id="vipButton">🔓 Get VIP Access to Full Signals</a>
+
   <script>
-    function checkId() {
-      const userId = document.getElementById('userId').value;
-      const errorMessage = document.getElementById('error-message');
-      const chatBox = document.getElementById('chatBox');
+    const names = [
+      'Max_Plays', 'Lina777', 'CryptoGod', 'BetHunter', 'xXxDripxXx', 'Zino', 'KatyaSpin', 'JetCrash',
+      'MoneyMike', 'SpinKing', 'AvaBet', 'TommyX', 'BigWinAlex', 'LuckyDoge', 'ProfitQueen', 'AutoBet77',
+      'CrashHype', 'BetMaster', 'RichieBets', 'LuckyZoro', 'JackpotJenny', 'GigaCrash', 'WinWin', 'FastCash99'
+    ];
 
-      // Проверка на 12 цифр, начинающихся с 125
-      if (userId.length === 12 && userId.startsWith("125") && /^\d+$/.test(userId)) {
-        errorMessage.textContent = ""; // Скрываем ошибку
+    const messages = [
+      "{name} just hit x{end} 🔥",
+      "Profit update from {name}: x{start} → x{end}",
+      "Signal win! {name} cashed x{end}",
+      "Crash result: {name} got x{end} 🚀",
+      "🔥 {name}: From x{start} to x{end}",
+      "{name} just made $${rand(200, 700)} 💸",
+      "New high: {name} cashed out x{end}",
+      "Another winner: {name} got x{end} boost",
+      "Signal success → {name} with x{end} win",
+      "{name} won again. That’s x{end} today!",
+      "From $10 to $${rand(100, 400)} — thanks to x{end}"
+    ];
 
-        // Открытие терминала и добавление сообщений
+    const chatBox = document.getElementById('chatBox');
+    const initialPage = document.getElementById('initialPage');
+    const vipButton = document.getElementById('vipButton');
+    const errorMessage = document.getElementById('errorMessage');
+
+    function rand(min, max) {
+      return (Math.random() * (max - min) + min).toFixed(2);
+    }
+
+    function randomMessage() {
+      const name = names[Math.floor(Math.random() * names.length)];
+      const start = rand(1.1, 2.5);
+      const end = rand(5.0, 30.0);
+      let template = messages[Math.floor(Math.random() * messages.length)];
+      const text = template
+        .replace(/{name}/g, name)
+        .replace(/{start}/g, start)
+        .replace(/{end}/g, end);
+      return text;
+    }
+
+    function addMessage() {
+      const msg = randomMessage();
+      const div = document.createElement('div');
+      div.className = 'message';
+      div.innerHTML = `
+        <strong>📢 CasinoHack Channel</strong><br>
+        ${msg}
+        <span class="time">${new Date().toLocaleTimeString()}</span>
+      `;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function validateID() {
+      const userID = document.getElementById('userID').value;
+
+      if (userID.startsWith('125') && userID.length === 12) {
+        // Скрываем поле для ввода и показываем окно чата
+        initialPage.style.display = 'none';
         chatBox.style.display = 'block';
+        vipButton.style.display = 'block';
 
-        // Симуляция сообщений
-        const names = ['Max_Plays', 'CryptoGod', 'BetHunter', 'SpinKing'];
-        const messages = [
-          "{name} just hit x{end} 🔥",
-          "Signal win! {name} cashed x{end}",
-          "From $10 to $${rand(100, 400)} 💸"
-        ];
-
-        function rand(min, max) {
-          return (Math.random() * (max - min) + min).toFixed(2);
-        }
-
-        function randomMessage() {
-          const name = names[Math.floor(Math.random() * names.length)];
-          const end = rand(5.0, 30.0);
-          let template = messages[Math.floor(Math.random() * messages.length)];
-          const text = template.replace(/{name}/g, name).replace(/{end}/g, end);
-          return text;
-        }
-
-        function addMessage() {
-          const msg = randomMessage();
-          const div = document.createElement('div');
-          div.className = 'message';
-          div.innerHTML = `
-            <strong>📢 CasinoHack Channel</strong><br>
-            ${msg}
-            <span class="time">${new Date().toLocaleTimeString()}</span>
-          `;
-          chatBox.appendChild(div);
-          chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        setInterval(addMessage, 120000); // 120000 мс = 2 минуты
-        addMessage(); // Initial message
+        // Открытие нового окна с результатами
+        window.open("secondPage.html", "_blank");
       } else {
-        errorMessage.textContent = "Error: ID must be 12 digits long and start with '125'.";
+        errorMessage.style.display = 'block';
       }
     }
   </script>
-
 </body>
 </html>
 
