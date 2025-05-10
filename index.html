@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casino Hack</title>
+  <style>
+    body {
+      background-color: black;
+      color: #00ff00;
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 50px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .input-field {
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #00ff00;
+      background-color: black;
+      color: #00ff00;
+      font-size: 16px;
+    }
+
+    .button {
+      background-color: #111;
+      color: #0f0;
+      padding: 10px 20px;
+      border: 2px solid #0f0;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+    }
+
+    .terminal {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #0f0;
+      background-color: #111;
+      color: #0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Enter Your ID to Access Signals</h1>
+    <input type="text" id="userId" class="input-field" placeholder="Enter 12-digit ID" />
+    <button class="button" onclick="checkId()">Submit</button>
+    <p id="error-message" class="error"></p>
+    
+    <div class="terminal" id="chatBox">
+      <!-- Messages will appear here after validation -->
+    </div>
+  </div>
+
+  <script>
+    function checkId() {
+      const userId = document.getElementById('userId').value;
+      const errorMessage = document.getElementById('error-message');
+      const chatBox = document.getElementById('chatBox');
+
+      // Проверка на 12 цифр, начинающихся с 125
+      if (userId.length === 12 && userId.startsWith("125") && /^\d+$/.test(userId)) {
+        errorMessage.textContent = ""; // Скрываем ошибку
+
+        // Открытие терминала и добавление сообщений
+        chatBox.style.display = 'block';
+
+        // Симуляция сообщений
+        const names = ['Max_Plays', 'CryptoGod', 'BetHunter', 'SpinKing'];
+        const messages = [
+          "{name} just hit x{end} 🔥",
+          "Signal win! {name} cashed x{end}",
+          "From $10 to $${rand(100, 400)} 💸"
+        ];
+
+        function rand(min, max) {
+          return (Math.random() * (max - min) + min).toFixed(2);
+        }
+
+        function randomMessage() {
+          const name = names[Math.floor(Math.random() * names.length)];
+          const end = rand(5.0, 30.0);
+          let template = messages[Math.floor(Math.random() * messages.length)];
+          const text = template.replace(/{name}/g, name).replace(/{end}/g, end);
+          return text;
+        }
+
+        function addMessage() {
+          const msg = randomMessage();
+          const div = document.createElement('div');
+          div.className = 'message';
+          div.innerHTML = `
+            <strong>📢 CasinoHack Channel</strong><br>
+            ${msg}
+            <span class="time">${new Date().toLocaleTimeString()}</span>
+          `;
+          chatBox.appendChild(div);
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        setInterval(addMessage, 120000); // 120000 мс = 2 минуты
+        addMessage(); // Initial message
+      } else {
+        errorMessage.textContent = "Error: ID must be 12 digits long and start with '125'.";
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+
