@@ -38,7 +38,7 @@
       margin-top: 4px;
     }
 
-    .vip-button {
+    .vip-button, .signal-button {
       display: block;
       width: fit-content;
       margin: 20px auto;
@@ -104,6 +104,7 @@
   </div>
 
   <a class="vip-button" href="https://t.me/YOUR_BOT_USERNAME" target="_blank" style="display: none;" id="vipButton">🔓 Get VIP Access to Full Signals</a>
+  <button class="signal-button" style="display: none;" onclick="generateSignal()">Get Aviator Signal</button>
 
   <script>
     const names = [
@@ -126,9 +127,18 @@
       "From $10 to $${rand(100, 400)} — thanks to x{end}"
     ];
 
+    const aviatorSignals = [
+      "💥 Aviator Signal: Bet now, high chances of big x2 win!",
+      "🚀 Aviator Signal: Get ready, the multiplier is about to explode!",
+      "⚡ Aviator Signal: Bet now, x1.7 multiplier in 30 seconds!",
+      "💰 Aviator Signal: Watch for x5 multiplier, ready to hit big!",
+      "🔥 Aviator Signal: High-risk bet, but huge potential at x10!"
+    ];
+
     const chatBox = document.getElementById('chatBox');
     const initialPage = document.getElementById('initialPage');
     const vipButton = document.getElementById('vipButton');
+    const signalButton = document.getElementById('signalButton');
     const errorMessage = document.getElementById('errorMessage');
 
     function rand(min, max) {
@@ -160,17 +170,29 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
+    function generateSignal() {
+      const signal = aviatorSignals[Math.floor(Math.random() * aviatorSignals.length)];
+      const div = document.createElement('div');
+      div.className = 'message';
+      div.innerHTML = `
+        <strong>🚨 Aviator Signal</strong><br>
+        ${signal}
+        <span class="time">${new Date().toLocaleTimeString()}</span>
+      `;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
     function validateID() {
       const userID = document.getElementById('userID').value;
 
       if (userID.startsWith('125') && userID.length === 12) {
-        // Скрываем поле для ввода и показываем окно чата
         initialPage.style.display = 'none';
         chatBox.style.display = 'block';
         vipButton.style.display = 'block';
-
-        // Открытие нового окна с результатами
-        window.open("secondPage.html", "_blank");
+        signalButton.style.display = 'block';
+        setInterval(addMessage, 120000); // 120000 ms = 2 minutes
+        addMessage();
       } else {
         errorMessage.style.display = 'block';
       }
