@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Casino Hack</title>
+  <title>Aviator Hack Bot 💸</title>
   <style>
     body {
       background-color: black;
@@ -11,37 +11,37 @@
       font-family: monospace;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-top: 20px;
+      color: #0f0;
     }
 
     .terminal {
       width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 420px;
+      margin: 10px auto;
       padding: 15px;
       box-sizing: border-box;
+      border: 2px solid #0f0;
+      height: 40vh;
+      overflow-y: auto;
     }
 
-    .message {
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px dotted #0f0;
-    }
-
-    .message strong {
-      color: #00ff00;
-    }
-
-    .message .time {
-      display: block;
-      font-size: 12px;
-      color: #888;
-      margin-top: 4px;
+    .signal-button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
     }
 
     .vip-button, .signal-button {
-      display: block;
-      width: fit-content;
-      margin: 20px auto;
       background-color: #111;
       color: #0f0;
       border: 2px solid #0f0;
@@ -50,7 +50,6 @@
       border-radius: 5px;
       cursor: pointer;
       text-decoration: none;
-      animation: blink 1s infinite;
     }
 
     .input-container {
@@ -60,6 +59,8 @@
       flex-direction: column;
       height: 100vh;
       background-color: black;
+      padding: 0 20px;
+      text-align: center;
     }
 
     input[type="text"] {
@@ -72,133 +73,82 @@
       margin-bottom: 20px;
     }
 
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0.2; }
-      100% { opacity: 1; }
-    }
-
     .register-link {
       color: #ff0000;
       text-decoration: none;
+      font-size: 20px;
+      font-weight: bold;
     }
 
     .register-link:hover {
       text-decoration: underline;
     }
+
+    #errorMessage {
+      font-size: 22px;
+      text-align: center;
+      margin-top: 20px;
+      color: red;
+    }
   </style>
 </head>
 <body>
   <div id="initialPage" class="input-container">
-    <h1>Enter Your 12-Digit ID</h1>
+    <h1>🚀 Aviator Hack Bot </h1>
+    <p>🔐 Enter Your 10-Digit 1XBET ID </p>
     <input type="text" id="userID" placeholder="ID starts with 125" />
-    <button class="vip-button" onclick="validateID()">Submit</button>
-    <p id="errorMessage" style="color: red; display: none;">
-      Error: ID must start with 125. <br />
-      <a href="https://your-registration-link.com" class="register-link">Register Now</a>
+    <button class="vip-button" onclick="validateID()">✅ Submit</button>
+    <p id="errorMessage" style="display: none;">
+      ❌ Error: Data is not correct, to synchronize create a new account with ⭕️ PROMO CODE - ➡️ PHP111<br />
+      <a href="https://first.spin-top.click/click?pid=493&offer_id=2958" class="register-link">👉 Register Now</a>
     </p>
   </div>
 
-  <div class="terminal" id="chatBox" style="display: none;">
-    <!-- Messages will appear here -->
+  <h2 id="botTitle" style="display: none;">🤖 Aviator Hack Bot 💸</h2>
+  <div class="terminal" id="chatBox" style="display: none;"></div>
+
+  <div class="signal-button-container" style="display: none;" id="buttonContainer">
+    <button class="signal-button" onclick="generateSignal()">📡 Get Signal</button>
+    <a class="vip-button" href="https://t.me/JeremyKean_bot" target="_blank">🔓 Get VIP Access</a>
   </div>
 
-  <a class="vip-button" href="https://t.me/YOUR_BOT_USERNAME" target="_blank" style="display: none;" id="vipButton">🔓 Get VIP Access to Full Signals</a>
-  <button class="signal-button" style="display: none;" onclick="generateSignal()">Get Aviator Signal</button>
-
   <script>
-    const names = [
-      'Max_Plays', 'Lina777', 'CryptoGod', 'BetHunter', 'xXxDripxXx', 'Zino', 'KatyaSpin', 'JetCrash',
-      'MoneyMike', 'SpinKing', 'AvaBet', 'TommyX', 'BigWinAlex', 'LuckyDoge', 'ProfitQueen', 'AutoBet77',
-      'CrashHype', 'BetMaster', 'RichieBets', 'LuckyZoro', 'JackpotJenny', 'GigaCrash', 'WinWin', 'FastCash99'
-    ];
-
-    const messages = [
-      "{name} just hit x{end} 🔥",
-      "Profit update from {name}: x{start} → x{end}",
-      "Signal win! {name} cashed x{end}",
-      "Crash result: {name} got x{end} 🚀",
-      "🔥 {name}: From x{start} to x{end}",
-      "{name} just made $${rand(200, 700)} 💸",
-      "New high: {name} cashed out x{end}",
-      "Another winner: {name} got x{end} boost",
-      "Signal success → {name} with x{end} win",
-      "{name} won again. That’s x{end} today!",
-      "From $10 to $${rand(100, 400)} — thanks to x{end}"
-    ];
-
-    const aviatorSignals = [
-      "💥 Aviator Signal: Bet now, high chances of big x2 win!",
-      "🚀 Aviator Signal: Get ready, the multiplier is about to explode!",
-      "⚡ Aviator Signal: Bet now, x1.7 multiplier in 30 seconds!",
-      "💰 Aviator Signal: Watch for x5 multiplier, ready to hit big!",
-      "🔥 Aviator Signal: High-risk bet, but huge potential at x10!"
-    ];
-
     const chatBox = document.getElementById('chatBox');
     const initialPage = document.getElementById('initialPage');
-    const vipButton = document.getElementById('vipButton');
-    const signalButton = document.getElementById('signalButton');
+    const buttonContainer = document.getElementById('buttonContainer');
     const errorMessage = document.getElementById('errorMessage');
+    const botTitle = document.getElementById('botTitle');
 
     function rand(min, max) {
       return (Math.random() * (max - min) + min).toFixed(2);
     }
 
-    function randomMessage() {
-      const name = names[Math.floor(Math.random() * names.length)];
-      const start = rand(1.1, 2.5);
-      const end = rand(5.0, 30.0);
-      let template = messages[Math.floor(Math.random() * messages.length)];
-      const text = template
-        .replace(/{name}/g, name)
-        .replace(/{start}/g, start)
-        .replace(/{end}/g, end);
-      return text;
-    }
-
-    function addMessage() {
-      const msg = randomMessage();
-      const div = document.createElement('div');
-      div.className = 'message';
-      div.innerHTML = `
-        <strong>📢 CasinoHack Channel</strong><br>
-        ${msg}
-        <span class="time">${new Date().toLocaleTimeString()}</span>
-      `;
-      chatBox.appendChild(div);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
     function generateSignal() {
-      const signal = aviatorSignals[Math.floor(Math.random() * aviatorSignals.length)];
       const div = document.createElement('div');
       div.className = 'message';
-      div.innerHTML = `
-        <strong>🚨 Aviator Signal</strong><br>
-        ${signal}
-        <span class="time">${new Date().toLocaleTimeString()}</span>
-      `;
+      div.innerHTML = `🔍 Hacking algorithm<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>`;
       chatBox.appendChild(div);
       chatBox.scrollTop = chatBox.scrollHeight;
+
+      setTimeout(() => {
+        const start = rand(1.1, 2.0);
+        const end = rand(2.1, 5.0);
+        div.innerHTML = `⚙️ Crash Algorithm: x${start} → x${end}`;
+      }, 2000);
     }
 
     function validateID() {
       const userID = document.getElementById('userID').value;
-
-      if (userID.startsWith('125') && userID.length === 12) {
+      if (userID.startsWith('125') && userID.length === 10) {
         initialPage.style.display = 'none';
         chatBox.style.display = 'block';
-        vipButton.style.display = 'block';
-        signalButton.style.display = 'block';
-        setInterval(addMessage, 120000); // 120000 ms = 2 minutes
-        addMessage();
+        buttonContainer.style.display = 'flex';
+        botTitle.style.display = 'block';
       } else {
         errorMessage.style.display = 'block';
+        if (navigator.vibrate) navigator.vibrate(200);
       }
     }
   </script>
 </body>
 </html>
-
-
